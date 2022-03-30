@@ -17,18 +17,31 @@ import './index.css';
         this.state = {
             squares: Array(9).fill(null),
             xIsNext: true,
+            winner: null, 
         };
     }
 
+    continuGame(i) {
+      const squaresSlice = this.state.squares.slice();
+      if(this.state.winner || squaresSlice[i]){
+        return false; 
+      }
+      return squaresSlice;
+    }
+
+    getPlayerMove() {
+      return this.state.xIsNext ? 'X' : 'O';
+    }
+
     handleClick(i) {
-        const squaresSlice = this.state.squares.slice();
-        if(calculateWinner(squaresSlice) || squaresSlice[i]){
-          return; 
-        }
-        squaresSlice[i] = this.state.xIsNext ? 'X' : 'O';
+        let squaresSlice = this.continuGame(i);
+        if(!squaresSlice) return;
+        squaresSlice[i] = this.getPlayerMove();
+        const winner = calculateWinner(squaresSlice);
         this.setState({
           squares:squaresSlice,
           xIsNext: !this.state.xIsNext,
+          winner: winner,
         });
 
     }
@@ -42,15 +55,18 @@ import './index.css';
       );
     }
   
-    render() {
-      const winner = calculateWinner(this.state.squares);
-      let status;
-      if(winner) {
-        status = 'Winner' + winner;
+    getStatus() {
+      let gameStatus;
+      if(this.state.winner) {
+        gameStatus = 'Winner' + this.state.winner;
       } else {
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        gameStatus = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
-  
+      return gameStatus;  
+    }
+
+    render() {
+      let status = this.getStatus();
       return (
         <div>
           <div className="status">{status}</div>
