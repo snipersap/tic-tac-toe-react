@@ -22,6 +22,9 @@ import './index.css';
 
     handleClick(i) {
         const squaresSlice = this.state.squares.slice();
+        if(calculateWinner(squaresSlice) || squaresSlice[i]){
+          return; 
+        }
         squaresSlice[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
           squares:squaresSlice,
@@ -98,10 +101,10 @@ import './index.css';
       [0,4,8],
       [2,4,6],
     ];
-    for(let i = 0; i > lines.length; i++) {
+    for(let i = 0; i < lines.length; i++) {
       const[a, b, c] = lines[i];
       if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return squares[a]; 
       }
     }
     return null;
