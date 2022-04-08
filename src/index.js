@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import './index.css';
 
-
+/* SQUARE Component */
   function Square(props){
     return (
       <button className="square" onClick={props.onClick}>
@@ -11,6 +11,7 @@ import './index.css';
     );
   }
   
+  /* BOARD Component */
   class Board extends React.Component {
     renderSquare(i) {
       return (
@@ -45,6 +46,7 @@ import './index.css';
     }
   }
   
+  /* GAME Component */
   class Game extends React.Component {
     constructor(props) {
       super(props);
@@ -150,6 +152,7 @@ import './index.css';
     }
   }
 
+  /* HELPER function */
   function calculateWinner(squares){
     const lines = [
       [0,1,2],
@@ -171,7 +174,8 @@ import './index.css';
   }
   
   // ========================================
-  
+  /* Render GAME Component */
+
   ReactDOM.render(
     <Game />,
     document.getElementById('root')
