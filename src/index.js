@@ -57,6 +57,7 @@ import './index.css';
         moveNumber: 0,
         xIsNext: true,
         winner: null,
+        squareMoves : Array(10).fill(null),
       };
     }
     
@@ -74,11 +75,18 @@ import './index.css';
       return this.state.xIsNext ? 'X' : 'O';
     }
 
+    getPlayerMovePositions(i) {
+      const squareMoves = this.state.squareMoves.slice(0,this.state.moveNumber + 1);
+      squareMoves[this.state.moveNumber+1] = i;
+      return squareMoves;
+    }
+
     handleClick(i) {
         let squaresSlice = this.continuGame(i);
         if(!squaresSlice) return;
         
         squaresSlice[i] = this.getPlayerMove();
+        const squareMoves = this.getPlayerMovePositions(i);
         const winner = calculateWinner(squaresSlice);
         const history = this.state.history.slice(0,this.state.moveNumber + 1);
         this.setState({
@@ -88,6 +96,7 @@ import './index.css';
           moveNumber: history.length,
           xIsNext: !this.state.xIsNext,
           winner: winner,
+          squareMoves: squareMoves,
         });
 
     }
@@ -113,11 +122,19 @@ import './index.css';
       }
     }
 
+    getSquarePosition(moveNumber) {
+      const squareMoves = this.state.squareMoves.slice();
+      const indexOfTablePosition = squareMoves[moveNumber];
+      const squarePosition = getTablePosition(indexOfTablePosition);
+      return squarePosition;
+    }  
+
     getMoves() {
       const history = this.state.history;
       /* map(current array value, current array index) */
       const moves = history.map((step, move) => {
-        const desc = move ? 'Go to move #' + move : 'Go to game start, i.e. move #' + move;
+        const squarePosition = this.getSquarePosition(move);
+        const desc = move ? 'Go to move #' + move + squarePosition : 'Go to game start, i.e. move #' + move;
         return(
           <li key={move}>
             <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -172,6 +189,22 @@ import './index.css';
     }
     return null;
   }
+
+  function getTablePosition(squareIndex){
+    const tablePositions = [
+      '(0,0)',
+      '(0,1)',
+      '(0,2)',
+      '(1,0)',
+      '(1,1)',
+      '(1,2)',
+      '(2,0)',
+      '(2,1)',
+      '(2,2)',
+    ];
+    return tablePositions[squareIndex];
+  }
+
   
   // ========================================
   /* Render GAME Component */
