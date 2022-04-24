@@ -6,6 +6,10 @@ body {
   ol, ul {
     padding-left: 30px;
   }
+
+  .liBold {
+    font-weight: bold;
+  }
   
   .board-row:after {
     clear: both;
@@ -31,7 +35,7 @@ body {
     text-align: center;
     width: 34px;
   }
-  
+
   .square:focus {
     outline: none;
   }

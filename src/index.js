@@ -134,10 +134,12 @@ import './index.css';
       /* map(current array value, current array index) */
       const moves = history.map((step, move) => {
         const squarePosition = this.getSquarePosition(move);
+        const isBold = (move == this.state.moveNumber)? "liBold" : null;
+        console.log(isBold);
         const desc = move ? 'Go to move #' + move + squarePosition : 'Go to game start, i.e. move #' + move;
         return(
-          <li key={move}>
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <li key={move} >
+            <button className = {isBold} onClick={() => this.jumpTo(move)}>{desc}</button>
           </li>
         ); 
       });
