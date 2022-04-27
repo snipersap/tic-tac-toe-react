@@ -16,17 +16,38 @@ import './index.css';
     renderSquare(i) {
       return (
         <Square 
+            key = {i}
             value={this.props.squares[i]} 
             onClick={() => {this.props.onClick(i)}}
         />
       );
     }
 
+    buildTable() {
+    /*Add the rows to form the table*/       
+      const squares = [];
+      for(let j = 0, index = 0; j < 3; j++, index+=3){
+        squares.push(this.buildRows(index));
+      }
+      return <div>{squares}</div>
+    }
+
+    buildRows(index) {
+      /*Create an array to hold the indexes of all the squares
+      const squareTable = Array.from({length: 9}, (value, index) => index);
+      console.log(squareTable);*/
+        const rows = [];
+        for(let i = 0; i < 3; i++, index++) {
+            rows.push(this.renderSquare(index));
+        }
+        return <div key={index} className="board-row">{rows}</div>; 
+    }
+
     render() {     
       return (
         <div>
           <div className="status">{/* status */}</div>
-          <div className="board-row">
+          {/*<div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
             {this.renderSquare(2)}
@@ -40,7 +61,8 @@ import './index.css';
             {this.renderSquare(6)}
             {this.renderSquare(7)}
             {this.renderSquare(8)}
-          </div>
+          </div>*/}
+          {this.buildTable()}
         </div>
       );
     }
@@ -135,7 +157,6 @@ import './index.css';
       const moves = history.map((step, move) => {
         const squarePosition = this.getSquarePosition(move);
         const isBold = (move == this.state.moveNumber)? "liBold" : null;
-        console.log(isBold);
         const desc = move ? 'Go to move #' + move + squarePosition : 'Go to game start, i.e. move #' + move;
         return(
           <li key={move} >
