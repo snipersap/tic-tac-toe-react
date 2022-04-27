@@ -1,7 +1,19 @@
+# Replicate this tutorial
+1. Clone to local repo
+2. use `npm start` to start the react app
+3. Play the tic-tac-toe game
+
+# What does this tutorial contain?
+1. Basic tutorial [Intro to React](https://reactjs.org/tutorial/tutorial.html)
+2. Improvement ideas from the end of the above tutorial (completed points 1-3, see [commits](https://github.com/snipersap/tic-tac-toe-react/commits/master))
+
 # Further Reading
 1. You can learn more about shouldComponentUpdate() and how you can build pure components by reading [Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#examples).
 2. Learn the difference between Class based React component and function component
 3. stop script for node.js: https://stackoverflow.com/questions/23258421/how-to-stop-app-that-node-js-express-npm-start
+
+
+# Create React App Readme below
 
 # Getting Started with Create React App
 
