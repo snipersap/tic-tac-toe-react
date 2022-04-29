@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom";
 import './index.css';
 
@@ -47,21 +47,6 @@ import './index.css';
       return (
         <div>
           <div className="status">{/* status */}</div>
-          {/*<div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>*/}
           {this.buildTable()}
         </div>
       );
@@ -80,6 +65,7 @@ import './index.css';
         xIsNext: true,
         winner: null,
         squareMoves : Array(10).fill(null),
+        sortOrder: 'Ascending',
       };
     }
     
@@ -185,12 +171,45 @@ import './index.css';
           </div>
           <div className="game-info">
             <div>{ status }</div>
-            <ol>{ moves }</ol>
+            <Toggle
+              moves = {moves}
+              onClick = {() => {
+                return this.handleToggleSort();
+              }}
+            />      
           </div>
         </div>
       );
     }
+
+    compare =(a, b ) => {
+      if(this.state.sortOrder) {
+        return -1;
+      } 
+     return 1;
+
+    }
+
+    handleToggleSort() {
+      //return React.Children.toArray(Children).sort(this.compare);
+      
+    }
+
   }
+
+
+
+/* Toggle Component */
+function Toggle(props){
+  return (
+    <div>
+      <button className="toggle" onClick={props.onClick}>
+        {'Toggle Sort'}
+      </button>
+      <ol id="Moves">{ props.moves }</ol>
+    </div>
+  );
+}
 
   /* HELPER function */
   function calculateWinner(squares){

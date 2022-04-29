@@ -52,4 +52,26 @@ body {
   .game-info {
     margin-left: 20px;
   }
-  
+
+  .toggle {
+    margin-top: 20px;
+    background: #1da1f2;
+    border-radius: 50px;
+    height: 30px;
+    width: 100px;
+    margin-left: 10px;
+    margin-top: 5px;
+    color: white;
+    box-shadow: 6px 6px 6px #cbced1,  -6px -6px 6px white;
+    border-color: #cbced1;
+/*hover*/
+    transition: 0.5s 1s;
+   /* or individually to modify only 1 property 
+   transition:background-color 0.5s 1s;*/
+    cursor: pointer;
+}
+
+.toggle:hover{
+  box-shadow: none;
+  background-color: #17698f;
+}
