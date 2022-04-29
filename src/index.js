@@ -71,6 +71,7 @@ import './index.css';
         winner: null,
         squareMoves : Array(1).fill(null),
         sortOrder: 'Ascending',
+        winningSquares: null,
         winningMove: null,
       };
     }
@@ -96,23 +97,24 @@ import './index.css';
     }
 
     determineWinner(squaresSlice){
-      const winningMove = calculateWinningMove(squaresSlice);
-      if(winningMove) { 
+      const winningSquares = calculateWinningMove(squaresSlice);
+      if(winningSquares) { 
         this.setState({
-          winningMove: winningMove,
+          winningSquares: winningSquares,
         });
-        return squaresSlice[winningMove[0]];
+        return squaresSlice[winningSquares[0]];
       }
     }
 
     handleClick(i) {
+        let winningMove = null; 
         let squaresSlice = this.continuGame(i);
         if(!squaresSlice) return;
         
         squaresSlice[i] = this.getPlayerMove();
-        const squareMoves = this.getPlayerMovePositions(i);
         const winner = this.determineWinner(squaresSlice);
         const history = this.state.history.slice(0,this.state.moveNumber + 1);
+        if(winner) winningMove = history.length;
         
         this.setState({
           history: history.concat([{
@@ -121,7 +123,8 @@ import './index.css';
           moveNumber: history.length,
           xIsNext: !this.state.xIsNext,
           winner: winner,
-          squareMoves: squareMoves,
+          squareMoves: this.getPlayerMovePositions(i),
+          winningMove: winningMove,
         });
 
     }
@@ -203,16 +206,17 @@ import './index.css';
     }
 
     isWinner(i) {
-      if(this.state.winningMove) {
-        return this.state.winningMove.findIndex((element) => element == i);
-      }
+      if(this.state.winningSquares && 
+         this.state.winningMove == this.state.moveNumber)
+        return this.state.winningSquares.findIndex((element) => element == i);
+      
       return -1;
     }
 
     compare =(a, b ) => {
-      if(this.state.sortOrder) {
+      if(this.state.sortOrder)
         return -1;
-      } 
+       
      return 1;
 
     }
