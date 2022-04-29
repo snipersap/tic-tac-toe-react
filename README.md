@@ -12,7 +12,8 @@
     2. highlight squares when it's a draw
 
 
-
+# Versioning system
+[Semantic versioning.](https://semver.org/)
 
 
 # Further Reading
