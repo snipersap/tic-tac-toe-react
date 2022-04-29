@@ -8,8 +8,10 @@
 2. Improvement ideas from the end of the above tutorial (completed points 1-3 and 5, see [commits](https://github.com/snipersap/tic-tac-toe-react/commits/master))
 3. For point 5, 
     > When someone wins, highlight the three squares that caused the win.
-    
-    added condition to highlight the winning squares only on the winning move.
+    1. highlight the winning squares, only on the winning move.
+    2. highlight squares when it's a draw
+
+
 
 # Further Reading
 1. You can learn more about shouldComponentUpdate() and how you can build pure components by reading [Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#examples).

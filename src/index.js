@@ -14,10 +14,7 @@ import './index.css';
   /* BOARD Component */
   class Board extends React.Component {
     renderSquare(i) { 
-      let classNameOfSquare = 'square';
-      const winner = this.props.isWinner(i);
-      if(winner >= 0) classNameOfSquare = 'squareWinner';
-
+      const classNameOfSquare = this.getSquareStyle(i);
       return (
         <Square 
             key = {i}
@@ -26,6 +23,13 @@ import './index.css';
             className={classNameOfSquare}
         />
       );
+    }
+
+    getSquareStyle(squareIndex) {
+      let squareStyle = 'square';
+      const winningSquare = this.props.isWinner(squareIndex);
+      winningSquare >= 0? squareStyle = 'squareWinner':(this.props.isADraw()?squareStyle = 'squareDraw':squareStyle = 'square');
+      return squareStyle;
     }
 
     buildTable() {
@@ -129,14 +133,30 @@ import './index.css';
 
     }
 
-    getStatus() {
-      let gameStatus;
+    isADraw() {
+      const current = this.state.history[this.state.moveNumber];
+      const squares = current.squares.slice();
+       if(squares.findIndex((element) => element == null) < 0 && !this.state.winner)
+        return 'Oops! it\'s a draw!';
+
+      return false;
+    }
+
+    isAWin() {
       if(this.state.winner) {
-        gameStatus = 'Winner: ' + this.state.winner;
-      } else {
-        gameStatus = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-      }
-      return gameStatus;  
+        return 'Winner: ' + this.state.winner;
+      } 
+      return false;
+    }
+
+    nextPlayer() {
+      return 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
+
+    getStatus() {
+      const win = this.isAWin();
+      const draw = this.isADraw(); 
+      return win? win:(draw? draw: this.nextPlayer());
     }
 
     jumpTo(move) {
@@ -189,6 +209,9 @@ import './index.css';
               }}
               isWinner = {(i) => {
                 return this.isWinner(i);
+              }}
+              isADraw = {() => {
+                return this.isADraw();
               }}
             />
           </div>
