@@ -5,7 +5,7 @@ import './index.css';
 /* SQUARE Component */
   function Square(props){
     return (
-      <button className="square" onClick={props.onClick}>
+      <button className={props.className} onClick={props.onClick}>
         {props.value}
       </button>
     );
@@ -13,12 +13,17 @@ import './index.css';
   
   /* BOARD Component */
   class Board extends React.Component {
-    renderSquare(i) {
+    renderSquare(i) { 
+      let classNameOfSquare = 'square';
+      const winner = this.props.isWinner(i);
+      if(winner >= 0) classNameOfSquare = 'squareWinner';
+
       return (
         <Square 
             key = {i}
             value={this.props.squares[i]} 
             onClick={() => {this.props.onClick(i)}}
+            className={classNameOfSquare}
         />
       );
     }
@@ -64,8 +69,9 @@ import './index.css';
         moveNumber: 0,
         xIsNext: true,
         winner: null,
-        squareMoves : Array(10).fill(null),
+        squareMoves : Array(1).fill(null),
         sortOrder: 'Ascending',
+        winningMove: null,
       };
     }
     
@@ -89,14 +95,25 @@ import './index.css';
       return squareMoves;
     }
 
+    determineWinner(squaresSlice){
+      const winningMove = calculateWinningMove(squaresSlice);
+      if(winningMove) { 
+        this.setState({
+          winningMove: winningMove,
+        });
+        return squaresSlice[winningMove[0]];
+      }
+    }
+
     handleClick(i) {
         let squaresSlice = this.continuGame(i);
         if(!squaresSlice) return;
         
         squaresSlice[i] = this.getPlayerMove();
         const squareMoves = this.getPlayerMovePositions(i);
-        const winner = calculateWinner(squaresSlice);
+        const winner = this.determineWinner(squaresSlice);
         const history = this.state.history.slice(0,this.state.moveNumber + 1);
+        
         this.setState({
           history: history.concat([{
             squares: squaresSlice,
@@ -167,6 +184,9 @@ import './index.css';
               onClick = {(i) => {
                 return this.handleClick(i);
               }}
+              isWinner = {(i) => {
+                return this.isWinner(i);
+              }}
             />
           </div>
           <div className="game-info">
@@ -180,6 +200,13 @@ import './index.css';
           </div>
         </div>
       );
+    }
+
+    isWinner(i) {
+      if(this.state.winningMove) {
+        return this.state.winningMove.findIndex((element) => element == i);
+      }
+      return -1;
     }
 
     compare =(a, b ) => {
@@ -212,7 +239,7 @@ function Toggle(props){
 }
 
   /* HELPER function */
-  function calculateWinner(squares){
+  function calculateWinningMove(squares){
     const lines = [
       [0,1,2],
       [3,4,5],
@@ -226,7 +253,8 @@ function Toggle(props){
     for(let i = 0; i < lines.length; i++) {
       const[a, b, c] = lines[i];
       if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a]; 
+        //return squares[a]; 
+        return lines[i]; 
       }
     }
     return null;

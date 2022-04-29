@@ -5,7 +5,7 @@
 
 # What does this tutorial contain?
 1. Basic tutorial [Intro to React](https://reactjs.org/tutorial/tutorial.html)
-2. Improvement ideas from the end of the above tutorial (completed points 1-3, see [commits](https://github.com/snipersap/tic-tac-toe-react/commits/master))
+2. Improvement ideas from the end of the above tutorial (completed points 1-3 and 5, see [commits](https://github.com/snipersap/tic-tac-toe-react/commits/master))
 
 # Further Reading
 1. You can learn more about shouldComponentUpdate() and how you can build pure components by reading [Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#examples).
